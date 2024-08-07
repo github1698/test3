@@ -1,0 +1,140 @@
+{%load static%}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous"  />
+    <link rel="stylesheet" href="{%static 'myapp/style1.css'%}">
+    <link rel="stylesheet" href="{%static "myapp/post.css"%}">
+    <link rel="stylesheet" href="{%static 'myapp/logos.css'%}">
+    <link rel="stylesheet" href="{%static "myapp/post2.css"%}">
+    <script src="script.js" defer></script>
+    <title>Background image</title> 
+      
+  </head>
+  <body>
+    <div class="menu-log">
+      <h4>contact no: +234-7032997372</h4>
+      <h5>Tel/Whatsapp/Wechat</h5>
+    </div>
+    <header>
+     
+      <a href="#" class="logo">General <span>Service</span></a>  
+      <input type="checkbox" id="menu-bar"> 
+      <label for="menu-bar">Menu</label>      
+      <nav class="navbar">
+      
+        <ul>
+          <li><a href="{%url 'home'%}">Home</a></li>
+          {%if user.is_authenticated and user.is_staff and user.is_superuser%}
+          <li><a href="">Prev Maintenance <i class="fas fa-caret-down"></i></a>
+           <div class="dropdown-menu">
+            <ul>
+              <li><a href="{%url 'equip'%}">Prev Maint</a></li>
+              <li><a href="{%url 'add-equipment'%}">Add equipment</a></li>
+              <li><a href="{%url 'all-equipments'%}">All Equipment</a></li>
+              <li><a href="{%url 'email-add'%}">Send email</a></li>
+              <li><a href="{%url 'email-add'%}">Send email</a></li>
+              <li><a onclick="location.href='{%url 'to-do'%}'">Django To do List</a></l>
+            </ul>
+          </div>
+          </li>
+          {%else%}
+          <div>
+            <h4>pls sign in</h4>
+          </div>
+          {%endif%}
+          <li><a href="">Workorders <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-menu">
+             <ul>
+                <li><a href="{%url 'all-workorder'%}">All workorders</a></li>
+                <li><a href="{%url 'add-workorder'%}">Add workorders</a></li>
+                <li><a href="{%url 'search-workorder'%}">Search workorders</a></li>
+                <li><a href="{%url 'work-order'%}">Completed workorders</a></li>
+             </ul>
+            </div>
+          </li>
+          <li><a href="">Request <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-menu">
+            <ul>
+            <li><a href="{%url 'add-request'%}">Add request</a></li>
+            <li><a href="{%url 'all-requests'%}">All request</a></li>
+            <li><a href="{%url 'electrical-activities'%}">Electrical Activities</a></li>
+            <li><a href="{%url 'mechanical-activities'%}">Mechanical Activities</a></li>
+            <li><a href="{%url 'biomedical-activities'%}">Biomedical request</a></li>
+          </ul>
+        
+          </li>
+        </div>
+          <li><a href="">Vendors<i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-menu">
+            <ul>
+            <li><a href="{% url 'list-vendor' %}">All Vendors</a></li>
+            <li><a href="{% url 'list-vendor' %}">Add vendors</a></li>
+            <li><a href="{% url 'search-vendor' %}">Search vendors</a></li>
+            
+          </ul>
+        </div>
+          </li>
+          <li><a href="">Consumables<i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-menu">
+            <ul>
+            <li><a href="{%url 'consumable-list'%}">All consumables</a></li>
+            <li><a href="{%url 'add-consumable'%}">addslashes consumables</a></li>
+            <li><a href="{%url 'biomedical-consumable'%}">Mechanical consumables</a></li>
+            <li><a href="{%url 'mechanical-consumable'%}">Mechanical consumables</a></li>
+            <li><a href="{%url 'electrical-consumable'%}">Electrical consumables</a></li>
+            <li><a href="{%url 'building-consumable'%}">Building consumables</a></li>
+          </ul>
+        </div>
+          </li>
+          <li><a href="">Downloads<i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-menu">
+            <ul>
+             <li><a href="{%url 'workorder-csv'%}">Workorder csv</a></li>
+             <li><a href="{% url 'activitieslist-pdf'%}">Acticitieslist pdf</a></li>
+             <li><a href="{%url 'activitieslist-text'%}">Activitieslist text</a></li>
+             <li><a href="{% url 'activitieslist-csv'%}">Activities Csv</a></li>
+             
+            </ul>
+          </div>
+          </li>
+          <li><a href="">Registration<i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-menu">
+            <ul>
+              <li><a href="{%url 'logout' %}">Logout</a></li>
+              <li><a href="{%url 'register_user' %}">Register User</a></li>
+              <li><a href="{%url 'signin' %}">Login</a></li>
+            </ul>
+          </div>
+          </li>
+        </ul>
+     
+      
+
+  </nav>
+</header>
+
+
+<section class="last">
+  &nbsp;
+  
+  <div class="from">
+    
+    {%block content%}
+
+    {%endblock%}
+  </div>
+
+ 
+</section>
+
+ 
+  </body>
+</html>

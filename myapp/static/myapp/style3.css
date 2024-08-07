@@ -1,0 +1,196 @@
+* {
+    margin: 0;
+    padding: 0;
+
+}
+
+body {
+    min-height: 100vh;
+    background-image: url(hosp1.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center ;
+
+    font-family: Arial, sans-serif;
+}
+.menu-log {
+   
+    background-color: var(--color-white);
+    height: 20px;
+    width: 100%;
+    font-family: sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    font-size: 5px;
+    margin-top: 10px;
+}
+
+.menu-bar {    
+    background-color: #09c25f;
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0;
+    margin-left: 10px;
+    
+    
+ 
+
+
+}
+
+.navbar-menu {
+    display: flex;
+}
+.navbar-menu ul {
+    width: 100%;
+    list-style-type: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.navbar-menu li {
+    height: 50px;
+    margin: 0 5px; /* Space between nav items */
+}
+
+
+.navbar-menu a {
+    height: 100%;
+    padding: 0 30px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: rgb(38, 119, 50); /* Text color */
+}
+.navbar a:hover {
+    background-color: #361c9f;
+}
+.navbar li:first-child {
+    margin-right: auto;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 250px;
+    z-index: 999;
+    background-color: rgba(255, 255, 255, 0.107);
+    box-shadow: -10px 0 10px  rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+   
+}
+
+
+.navbar-menu .sidebar li {
+    width: 100%;
+}
+.navbar-menu .sidebar a {
+    width: 100%;
+}
+.menu-button {
+    display: none;
+}
+.menu-bar ul li:hover .dropdown-menu ul {
+    display: block;
+    margin: 10px;
+    padding: 0;
+    
+ }
+ .dropdown-menu ul li {
+   width: 180px;
+   padding: 10px;
+   margin-top: 0;
+}
+
+.dropdown-menu li a {
+    padding: .5em 1em;
+    color: gray;
+}
+
+.dropdown-menu li:first-child a {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-left: 2px;
+    color: var(--color-white);
+}
+
+.fas {
+    float: right;
+    margin-left: 15px;
+    padding-top: 3rem;
+    
+}
+.hero {
+    height: calc(100vh);
+    background-image: url('../myapp/images/hosp7.jpg');
+    background-position: centre;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+    position: relative;
+    animation: change 10s infinite ease-in-out;
+}
+    
+
+
+.card-text {
+    font-size: 20px;
+    top: 35%;
+    left: 25%;
+    margin-top: 10px;
+    color: var(--color-primary);
+}
+@keyframes change {
+    0%
+    {
+        background-image: url('../myapp/images/hosp1.jpg');
+    }
+    20%
+    {
+        background-image: url('../myapp/images/hosp2.jpg');
+    }
+    40%
+    {
+        background-image: url('../myapp/images/hosp1.jpg');
+    }
+    60%
+    
+    {
+        background-image: url('../myapp/images/hosp3.jpg');
+    }
+    80%
+    {
+        background-image: url('../myapp/images/hosp5.jpg');
+    }
+    100%
+    {
+        background-image: url('../myapp/images/hosp6.jpg');
+    }
+}
+@media(max-width: 800px){
+    .hideOnMobile{
+        display: none;
+    }
+    .menu-button {
+        display: none;
+    }
+}
+@media(max-width: 400px){
+    .sidebar{
+        width: 100%;
+    }
+}
+   
+
+
