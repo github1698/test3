@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Equipment, MaintOfficers,Workorder, Vendor,Section, Asset, Consumable, Department, Requisition, Head,Activities, TodoItem,TodoList
+from . models import Equipment, MaintOfficers,Workorder, Vendor,Section, Asset, Consumable, Department, Requisition, Head,Activities, TodoItem,TodoList,Item
 
 # Register your models here.
 @admin.register(MaintOfficers)
@@ -21,9 +21,9 @@ class ActivitiesAdmin(admin.ModelAdmin):
 
 @admin.register(Requisition)
 class RequisitionAdmin(admin.ModelAdmin):
-    list_display=('emanating_dept','requesting_officer')
+    list_display=('requisition_no','emanating_dept','requesting_officer')
     ordering=('emanating_dept',)
-    search_fields=('emanating_dept','requesting_office')
+    search_fields=('emanating_dept','requisition_no')
     
 
    
@@ -77,6 +77,13 @@ class HeadAdmin(admin.ModelAdmin):
     list_display=('unit','department1')
     ordering=('department1',)
     search_fields=('unit','department1')
+    
+@admin.register(Item)
+class ItemAdmin(admin.ModelAdmin):
+    list_display=('item_list','item_quantity')
+    ordering=('item_list',)
+    
+
 
 admin.site.register(Department)
 

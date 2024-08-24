@@ -4,7 +4,7 @@
 <h1>Requests....</h1>
 
 <table class="table table-striped table-hover table-bordered">
-{%for requisition in requisitions%}
+{% for requisition in requisitions%}
 <tr>
     <td>
         <a href="{%url 'show-request' requisition.id%}">{{requisition}}</a>

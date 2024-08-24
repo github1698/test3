@@ -6,9 +6,16 @@ from time import strftime
 from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 from django.urls import reverse
+import uuid
 from jsignature.fields import JSignatureField
 
 
+class Item(models.Model):
+    item_list=models.CharField(max_length=250, default='')
+    item_quantity=models.IntegerField(default='0',blank=True, null=True)
+    
+    def __str__(self):
+        return self.Item_list
 # class Activities(models.Model):
 #     name=models.ForeignKey("MaintOfficers", blank=True, null=True, on_delete=models.SET_NULL)
 #     date=models.DateField(date.today)
@@ -24,6 +31,7 @@ from jsignature.fields import JSignatureField
 #          return self.department
 
 class Requisition(models.Model):
+    requisition_no=models.IntegerField(default='0',blank=True, null=True)
     emanating_dept=models.CharField(max_length=200, blank = True, null = True,default='')
     requesting_officer=models.TextField('In_Charge',max_length=500, blank=True, null=True)
     hod_consent=models.CharField(max_length=30)
@@ -33,7 +41,7 @@ class Requisition(models.Model):
     section=models.ForeignKey('Section',blank=True, null=True, on_delete=models.SET_NULL)
     manager=models.CharField(max_length=50,blank=True, null=True, default="")
     date_submitted=models.DateTimeField(blank=True, null=True)
-    date_received=models.DateTimeField(blank=True, null=True)
+    reason_delay=models.TextField(max_length=450, blank=True, null=True)
     is_complete=models.BooleanField(default=False)
     request_image=models.ImageField(null=True, blank=True, upload_to="images/")
     
@@ -130,7 +138,7 @@ class Workorder(models.Model):
     item_used=models.ForeignKey("Consumable", blank=True, null=True, on_delete=models.SET_NULL)
     manager=models.CharField(max_length=50,blank=True, null=True, default="")
     attendees=models.ManyToManyField('MaintOfficers', blank=True)
-    completed=models.BooleanField(default=False, blank=True)
+    completed=models.BooleanField(default=False)
 
     def __str__(self):
         return self.requesting_unit
@@ -149,6 +157,12 @@ class Workorder(models.Model):
         else:
             thing="Future"
         return thing
+    
+    @classmethod
+    def job_completed(cls):
+        return cls.objects.filter(workorder_status = Workorder.objects.annotate(  
+        completed=('True')))
+        
 
 class Asset(models.Model):
     asset_name=models.CharField( max_length=120)

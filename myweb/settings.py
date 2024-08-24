@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'member2',
     'myapp',
     'jsignature',
+    'charts',
     
 ]
 
@@ -62,7 +63,7 @@ ROOT_URLCONF = 'myweb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [r'C:\myweb\myapp\templates',r'C:\myweb\member2\templates'],
+        'DIRS': [r'C:\Users\USER\Documents\myweb - Copy\myweb\myapp\templates',r'C:\Users\USER\Documents\myweb - Copy\myweb\member\templates',r'C:\Users\USER\Documents\myweb - Copy\myweb\charts\templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,8 +125,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-STATICFILES_DIRS=[r'C:\myweb\myapp\static']
+STATICFILES_DIRS=[r'C:\Users\USER\Documents\myweb - Copy\myweb\myapp\static']
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')  
 MEDIA_ROOT ='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL='/images/'
@@ -136,6 +138,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = ('EMAIL_USER1')
 EMAIL_HOST_PASSWORD = ('EMAIL_PASS1')
 EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL= ('EMAIL_USER1')
 STATIC_URL = '/static/'
 MEDIA_ROOT ='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

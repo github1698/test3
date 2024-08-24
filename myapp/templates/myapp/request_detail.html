@@ -1,0 +1,14 @@
+{%extends 'myapp/base.html'%}
+
+{%block content%}
+<h1>Request Details</h1>  
+<p>ID: {{ requisition.id }}</p>  
+<p>Title: {{ requisition.emanating_dept }}</p>  
+<p>Description: {{ requisition.date_submitted }}</p>  
+<p>Created At: {{ requisition.is_complete }}</p>
+
+
+{%endblock%}
+
+
+

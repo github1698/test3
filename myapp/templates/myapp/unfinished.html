@@ -1,0 +1,9 @@
+{%extends 'myapp/base.html'%}
+{%block content%}
+<h1>Unfinished workorder</h1>
+<ul>
+    {% for workorder in unfinished_workorder %}
+        <li>{{ workorder.requesting_unit }}</li>
+    {% endfor %}
+</ul>
+{%endblock%}

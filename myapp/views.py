@@ -24,6 +24,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import TodoList, TodoItem, WorkDoneList,WorkDoneItem
 from django.urls import reverse,reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404  
 
 @login_required
 def workorder_pdf(request):
@@ -49,10 +50,10 @@ def workorder_pdf(request):
       for workorder in workorders:
             lines.append(workorder.requesting_unit)
             lines.append(workorder.department)
-            lines.append(workorder.equipment)
+            lines.append(workorder.receiving_unit)
             lines.append(workorder.date_received)
             lines.append(workorder.completion_date)
-            lines.append(workorder.status)
+            lines.append(workorder.completed)
             lines.append('')
             
             
@@ -147,7 +148,7 @@ def workorder_csv(request):
 
       
       for workorder in workorders:
-            writer.writerow([workorder.requesting_unit,workorder.equipment,workorder.department,workorder.completion_date,workorder.manager,workorder.status])
+            writer.writerow([workorder.requesting_unit,workorder.receiving_unit,workorder.department,workorder.completion_date,workorder.manager])
       
       return response
 #let generate text file
@@ -164,7 +165,7 @@ def workorder_csv(request):
 
       
       for workorder in workorders:
-            writer.writerow([workorder.requesting_unit,workorder.equipment,workorder.department,workorder.completion_date,workorder.manager,workorder.status])
+            writer.writerow([workorder.requesting_unit,workorder.receiving_unit,workorder.department,workorder.completion_date,workorder.manager])
       
       return response
 #let generate text file
@@ -401,17 +402,7 @@ def update_vendor(request, vendor_id):
             "vendor":vendor, "form":form
       })
 
-@login_required
-def update_request(request, requisition_id):
-    update_request=Requisition.objects.get(pk=requisition_id)
-    form=RequisitionFormAdmin(request.POST or None, request.FILES or None, instance=update_request)
-    if form.is_valid():
-        form.save()
-        return redirect('all-requests')
-      
-    return render(request,"myapp/update_request.html",
-        {"update_request":update_request, "form":form
-      })
+
       
 @login_required
 def search_vendor(request):
@@ -458,13 +449,28 @@ def show_vendor(request, vendor_id):
             "vendor":vendor,'vendor_owner':vendor_owner
       })
     
-@login_required
+# @login_required
+# def show_request(request,requisition_id):
+#     requisition=Requisition.objects.get(pk=requisition_id)
+#       #activity_owner=User.objects.get(pk=activity.owner)
+#     return render(request,"myapp/show_request.html",{
+#             "requisition":requisition
+#       })
 def show_request(request,requisition_id):
+    request_obj = get_object_or_404(Requisition, id=requisition_id)  
+    return render(request, 'myapp/show_request.html', {'request': request_obj})
+
+@login_required
+def show_request(request, requisition_id):
     requisition=Requisition.objects.get(pk=requisition_id)
-      #activity_owner=User.objects.get(pk=activity.owner)
+    #workorder_owner=User.objects.get(pk=workorder.owner)
     return render(request,"myapp/show_request.html",{
             "requisition":requisition
-      })
+      })    
+      
+    
+    
+
 
 @login_required
 def show_Workorder(request,workorder_id):
@@ -486,7 +492,7 @@ def list_request(request):
     return render(request,'myapp/request_list.html', {
             "requisitions":requisitions
       }) 
-    
+
 @login_required    
 def asset_list(request):
      # supplier_list = Supplier.objects.all().order_by('name')
@@ -569,7 +575,9 @@ def add_workorder(request):
     if request.method=='POST':
         form=WorkorderForm(request.POST)
         if form.is_valid():
+            
             workorder=form.save(commit = False)
+           
             workorder.save()
             email_add(request)
             return HttpResponseRedirect('/add_workorder? submitted=True',{
@@ -580,15 +588,32 @@ def add_workorder(request):
             submitted=True
     return render(request,"myapp/add_workorder.html",{"form":form,'submitted':submitted})
 
+# def add_request(request):  
+#     if request.method == "POST":  
+#         form = RequisitionForm(request.POST)  
+#         if form.is_valid():  
+#             new_request = form.save()  # The request ID will be generated automatically  
+#             return redirect('request_detail', request_id=new_request.id)  # Redirect to detail view with ID  
+#     else:  
+#         form = RequisitionForm()  
+#     return render(request, 'myapp/add_requests.html', {'form': form})
+
+    
+
+
+
+
 @login_required
 def add_request(request):
     submitted=False
     if request.method=='POST':
-        form=RequisitionForm(request.POST)
+        form=RequisitionForm(request.POST, request.FILES)
         if form.is_valid():
+            
             requisition=form.save(commit = False)
+           
             requisition.save()
-            sendSmS()
+            email_add(request)
             return HttpResponseRedirect('/add_request? submitted=True',{
                         "form":form})
     else:
@@ -596,7 +621,11 @@ def add_request(request):
         if 'submitted' in request.GET:
             submitted=True
     return render(request,"myapp/add_request.html",{"form":form,'submitted':submitted})
-             
+
+# def request_detail(request, requisition_id):  
+#     request_obj = get_object_or_404(Requisition, id=requisition_id)  
+#     return render(request, 'myapp/request_detail.html', {'request': request_obj})    
+        
 @login_required
 def add_asset(request):
     submitted=False
@@ -724,11 +753,13 @@ def building_activities(request):
 
 @login_required
 def work_done(request):      
-    work_completed=Workorder.objects.filter(completed=True)
-    return render(request,"myapp/work_done.html",{
-                  "work_completed":work_completed 
+    work=Workorder.objects.filter(completed=True)
+    work.completed==True if request.GET.get('completed')=='True' else False
+    
+    messages.success(request, ('page updated successfully'))
+    return redirect('all-workorder')
                   
-            })
+            
     
 def sendSmS():
     url = "https://api.ng.termii.com/api/sms/send"
@@ -850,6 +881,19 @@ def show_workorder(request, workorder_id):
     return render(request, 'myapp/show_workorder.html',{
           'workorder':workorder
      })
+
+@login_required
+def update_request(request, requisition_id):
+    update_request=Requisition.objects.get(pk=requisition_id)
+    form=RequisitionFormAdmin(request.POST or None, request.FILES or None, instance=update_request)
+    if form.is_valid():
+        form.save()
+        return redirect('all-requests')
+      
+    return render(request,"myapp/update_request.html",
+        {"update_request":update_request, "form":form
+      })
+    
 @login_required
 def update_equipment(request, equipment_id):
     update_equipment=Workorder.objects.get(pk=equipment_id)  
@@ -972,39 +1016,9 @@ def all_equipments(request):
              'equipments':equipments, "nums":nums
       })       
           
-@login_required
-def calendar1(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
-     
-                  
-                month=month.capitalize()
-                month_number=list(calendar.month_name).index(month)
-                month_number=int(month_number)
 
-                cal=HTMLCalendar().formatmonth(year,month_number)
-                now=datetime.now()
-                current_year=now.year
-                time=now.strftime('%I:%M:%S:%p')
-                
-                workorder_list=Workorder.objects.filter(
-                      date_received__year=year,
-                      date_received__month=month_number
-                )
 
-                                       
-                return render(request, "myapp/calendar.html", {
-        
-               "year":year,
-               "time":time,
-               "month":month,
-               "month_number":month_number,
-               "cal":cal,
-               "current_year":current_year,
-               "workorder_list":workorder_list
-        
-             
-        
-     
-    })
+    
 def signup(request):
      if request.method=='POST':
         form=SignUpForm(request.POST)
@@ -1074,3 +1088,123 @@ def email_add(request):
     else:
         return render (request,'myapp/email.html', {})
                 
+def item_data(request):
+    submitted=False
+    if request.method=='POST':
+        form=WorkorderForm(request.POST)
+        if form.is_valid():
+            
+            workorder=form.save(commit = False)
+           
+            workorder.save()
+            email_add(request)
+            return HttpResponseRedirect('/add_workorder? submitted=True',{
+                        "form":form})
+    else:
+        form=WorkorderForm
+        if 'submitted' in request.GET:
+            submitted=True
+    return render(request,"myapp/dash1.html",{
+               "form":form,
+               'submitted':submitted,
+               
+               "current_year":current_year,
+               "workorder_list":workorder_list,
+        
+             
+        
+     
+    })
+def calendar1(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
+     
+                  
+                month=month.capitalize()
+                month_number=list(calendar.month_name).index(month)
+                month_number=int(month_number)
+
+                cal=HTMLCalendar().formatmonth(year,month_number)
+                now=datetime.now()
+                current_year=now.year
+                time=now.strftime('%I:%M:%S:%p')
+                
+                workorder_list=Workorder.objects.filter(
+                      date_received__year=year,
+                      date_received__month=month_number
+                )
+
+                                       
+                return render(request, "myapp/calendar.html", {
+        
+               "year":year,
+               "time":time,
+               "month":month,
+               "month_number":month_number,
+               "cal":cal,
+               "current_year":current_year,
+               "workorder_list":workorder_list
+        
+             
+                })
+                
+def unfinished_workorder(request):
+    unfinished_workorder = Workorder.objects.filter(completed=False)
+    context = {'unfinished_workorder': unfinished_workorder}
+    return render(request, 'myapp/unfinished.html', context)
+
+def finished_workorder(request):
+    finished_workorder = Workorder.objects.filter(completed=True)
+    context = {'finished_workorder': finished_workorder}
+    return render(request, 'myapp/finished.html', context)
+     
+
+# @login_required
+# def index(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
+#     month=month.capitalize()
+#     month_number=list(calendar.month_name).index(month)
+#     month_number=int(month_number)
+
+#                 cal=HTMLCalendar().formatmonth(year,month_number)
+#                 now=datetime.now()
+#                 current_year=now.year
+#                 time=now.strftime('%I:%M:%S:%p')
+                
+#                 labels=[]
+#                 data=[]
+                
+#                 requisition_list=Requisition.objects.filter(
+#                       date_received__year=year,
+#                       date_received__month=month_number
+#                 )
+                
+#                 for requisition in requisition_list:
+#                    if requisition.date_submitted.month==month:
+#                        labels.append(requisition.emanating_dept)
+#                        Sum=sum(labels)
+#                        data.append(Sum)
+                    
+                    
+
+                                       
+#                 return render(request, "myapp/index.html", {
+        
+#                "year":year,
+#                "time":time,
+#                "month":month,
+#                "month_number":month_number,
+#                "cal":cal,
+#                "current_year":current_year,
+#                "requisition_list":requisition_list,
+#                "labels":labels,
+#                "data":data,
+        
+             
+        
+     
+#     })
+# from django.db.models import Func  
+# from django.db.models.functions import ExtractMonth  
+# from .models import Sample  
+
+# def filter_samples_by_month(request, month):  
+#     samples = Sample.objects.annotate(month=ExtractMonth('date')).filter(month=month)  
+#     return render(request, 'your_template.html', {'samples': samples})

@@ -8,22 +8,24 @@
       <div class="card-body">
         <h5 class="card-title">Special title treatment</h5>
         <p class="card-text">
-            
+          <strong>Requesting Name</strong>:{{requisition.id}}<br/>
                   <strong>Requesting Name</strong>:{{requisition.emanating_dept}}<br/>
                   <strong>Date</strong>:{{requisition.requesting_officer}}<br/>
-                  
+                  {%if user.is_manager%}
                   <strong>Section</strong>:{{requisition.hod_consent}}<br/>
+                  {%endif%}
                   <strong>Section</strong>:{{requisition.equipment}}<br/>
                   <strong>Activity</strong>:{{requisition.action_by}}<br/>
                   <strong>Status</strong>:{{requisition.section}}<br/>
                   <strong>Details</strong>:{{requisition.manager}}<br/>
                    <strong>Section</strong>:{{requisition.date_submitted}}<br/>
-                   <strong>Section</strong>:{{requisition.date_received}}<br/>
+                   
                    <strong>Sub_unit</strong>:{{requisition.is_complete}}<br/>
                   
                   
-                             
-           
+                    {% if requisition.requisition_image%}         
+                    <img src="{{requisition_image}}" width=500px>
+                    {%endif%}
         </p>
         <a href="{%url 'all-requests'%}" class="btn btn-primary">Requests</a>
       </div>

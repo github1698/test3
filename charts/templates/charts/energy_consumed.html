@@ -1,0 +1,28 @@
+{%extends 'myapp/base.html'%}
+{%block content%}
+<table>  
+    <thead>  
+        <tr>  
+            <th>Date</th>  
+            <th>Total Quantity</th>  
+        </tr>  
+    </thead>  
+    <tbody>  
+          
+        <tr>  
+           <th>Commodity Name</th>  
+            <th> Quantity</th> 
+            <th>total_consumed</th> 
+        </tr>  
+        {%for commodity in commodities%} 
+            <tr> 
+                
+                <td>{{ commodity.name}}</td>  
+                <td>{{ commodity.quantity}}</td> 
+                <td>{{ commodity.total_consumed}}</td> 
+                
+            </tr>  
+            {%endfor%}
+    </tbody>  
+</table>
+{%endblock%}

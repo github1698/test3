@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-from .models import Equipment, Workorder,Asset,Vendor, Consumable, Department, Mech_Consumable,MaintOfficers,Requisition, Head
+from .models import Equipment, Workorder,Asset,Vendor, Consumable, Department, Mech_Consumable,MaintOfficers,Requisition, Head, Item
 
 class SignUpForm(UserCreationForm):
     class Meta:
@@ -23,8 +23,9 @@ class RequisitionFormAdmin(ModelForm):
     is_complete=forms.BooleanField(required=True)
     class Meta:
         model=Requisition
-        fields=('emanating_dept','requesting_officer','hod_consent','equipment','action_by','section','manager','manager','date_submitted','date_received','is_complete')
+        fields=('requisition_no','emanating_dept','requesting_officer','hod_consent','equipment','action_by','section','manager','manager','date_submitted','is_complete','request_image')
         labels={
+           'requisition_no':'',
             'emanating_dept':'Requesting unit',
            
             'requesting_officer':'Requesting Officer',
@@ -35,13 +36,15 @@ class RequisitionFormAdmin(ModelForm):
             'section':'Section',
             'manager':'In-Charge',
             'date_submitted':'YYYY-MM-DD',
-            'date_received':'Date Submitted',
+            'reason_delay':'',
             'is_complete':'',
+            'request_image':''
            
             
 
         }
         widgets = {
+            'requisition_no':forms.TextInput(attrs={'class':'form-control','placeholder':'Date Supplied'}),
             'emanating_dept':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Requesting Department'}),
             'requesting_officer':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Requesting Officer'}),
             'hod_consent':forms.TextInput(attrs={'class':'form-control','placeholder':'HOD Comment'}),
@@ -51,16 +54,17 @@ class RequisitionFormAdmin(ModelForm):
             'section':forms.TextInput(attrs={'class':'form-control','placeholder':'Section'}),
             'manager':forms.Select(attrs={'class':'form-control','placeholder':'manager'}),
             'date_submitted':forms.TextInput(attrs={'class':'form-control','placeholder':'Date Submitted'}),
-            'date_received':forms.TextInput(attrs={'class':'form-control','placeholder':'Date Received'}),
+            'raason_delay':forms.Textarea(attrs={'class':'form-control','placeholder':'Present Condition'}),
             'is_complete':forms.BooleanField(),
-            
+            'request_image':''
                 }
 class RequisitionForm(ModelForm):
     is_complete=forms.BooleanField(required=True)
     class Meta:
         model=Requisition
-        fields=('emanating_dept','requesting_officer','hod_consent','equipment','action_by','section','manager','date_submitted','date_received','is_complete')
+        fields=('requisition_no','emanating_dept','requesting_officer','hod_consent','equipment','action_by','section','manager','date_submitted','is_complete','request_image')
         labels={
+            'requisition_no':'',
             'emanating_dept':'',
            
             'requesting_officer':' ',
@@ -72,13 +76,15 @@ class RequisitionForm(ModelForm):
             'manager':'Manager',
            
             'date_submitted':'YYYY-MM-DD',
-            'date_received':'',
+            'reason_delay':'',
             'is_complete':'',
+            'request_image':''
            
             
 
         }
         widgets = {
+            'requisition_no':forms.TextInput(attrs={'class':'form-control','placeholder':'Date Supplied'}),
             'emanating_dept':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Requesting Department'}),
             'requesting_officer':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Requesting Officer'}),
             'hod_consent':forms.TextInput(attrs={'class':'form-control','placeholder':'HOD Comment'}),
@@ -88,7 +94,7 @@ class RequisitionForm(ModelForm):
             'section':forms.Select(attrs={'class':'form-control','placeholder':'Section'}),
             
             'date_submitted':forms.TextInput(attrs={'class':'form-control','placeholder':'Date Submitted'}),
-            'date_received':forms.TextInput(attrs={'class':'form-control','placeholder':'Date Received'}),
+            'raason_delay':forms.Textarea(attrs={'class':'form-control','placeholder':'Present Condition'}),
             'is_complete':forms.BooleanField(),
             
                 }
@@ -96,8 +102,9 @@ class EquipmentFormAdmin(ModelForm):
     is_complete=forms.BooleanField(required=True)
     class Meta:
         model=Requisition
-        fields=('emanating_dept','requesting_officer','hod_consent','equipment','action_by','section','manager','manager','date_submitted','date_received','is_complete')
+        fields=('requisition_no','emanating_dept','requesting_officer','hod_consent','equipment','action_by','section','manager','manager','is_complete','request_image')
         labels={
+            'requisition_no':'',
             'emanating_dept':'',
            
             'requesting_officer':' ',
@@ -108,13 +115,14 @@ class EquipmentFormAdmin(ModelForm):
             'section':'',
             'manager':'',
             'date_submitted':'YYYY-MM-DD',
-            'date_received':'',
+            'reason_delay':'',
             'is_complete':'',
-           
+           'request_image':''
             
 
         }
         widgets = {
+            'requisition_no':forms.TextInput(attrs={'class':'form-control','placeholder':'Date Supplied'}),
             'emanating_dept':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Requesting Department'}),
             'requesting_officer':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Requesting Officer'}),
             'hod_consent':forms.TextInput(attrs={'class':'form-control','placeholder':'HOD Comment'}),
@@ -124,7 +132,7 @@ class EquipmentFormAdmin(ModelForm):
             'section':forms.TextInput(attrs={'class':'form-control','placeholder':'Section'}),
             'manager':forms.Select(attrs={'class':'form-control','placeholder':'manager'}),
             'date_submitted':forms.TextInput(attrs={'class':'form-control','placeholder':'Date Submitted'}),
-            'date_received':forms.TextInput(attrs={'class':'form-control','placeholder':'Date Received'}),
+            'raason_delay':forms.Textarea(attrs={'class':'form-control','placeholder':'Present Condition'}),
             'is_complete':forms.BooleanField(),
             
                 }
@@ -195,7 +203,7 @@ class WorkorderForm(ModelForm):
             'completion_date':forms.DateInput(attrs={'class':'form-control','placeholder':'Completion Date YYYY-MM-DD'}),
             'machine':forms.TextInput(attrs={'class':'form-control','placeholder':'machines'}),
             'attendees':forms.SelectMultiple(attrs={'class':'form-control','placeholder':'Attending Officer'}),
-            'completed':forms.BooleanField(),
+            'completed':forms.BooleanField(initial=False, required=False),
             
         }
 
@@ -408,4 +416,12 @@ class HeadForm(ModelForm):
         widgets = {
             'first_name':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Store_outlet name'}),
             'last_name':forms.TextInput(attrs={'class':'form-select','placeholder':'Supplier'}),
+        }
+class ItemForm(ModelForm):
+    class Meta:
+        model=Item
+        fields = '__all__'
+        widgets = {
+            'item_list': forms.TextInput(attrs={'class': 'form-control'}),
+            'item_quantity': forms.TextInput(attrs={'class': 'form-control'}),
         }

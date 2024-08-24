@@ -15,10 +15,33 @@ Your Request was submitted successfully!!
     <div class="form-group">
     {% csrf_token %}
     {{form.as_p}}
+    <!--<input type="hidden" id="myId" value="1">
+    <label for="uuid">Enter UUID:</label>  
+    <input type="text" id="uuid" name="uuid" required>-->
+    <span id="error-message" style="color: red; display: none;"></span>  
+
     <input class="submit" value="Submit" >
     <button class="btn btn-outline-secondary" type="submit">Submit</button>
 </div>
 </form>
+<!--<script>  
+    const form = document.getElementById('uuidForm');  
+    const uuidInput = document.getElementById('uuid');  
+    const errorMessage = document.getElementById('error-message');  
+
+    form.addEventListener('submit', function(event) {  
+        const uuidRegex = /^(?:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/;  
+
+        if (!uuidRegex.test(uuidInput.value)) {  
+            errorMessage.textContent = 'Invalid UUID format. Please enter a valid UUID.';  
+            errorMessage.style.display = 'block';  
+            event.preventDefault(); // Prevent form submission  
+        } else {  
+            errorMessage.style.display = 'none'; // Clear previous error message  
+        }  
+    });  
+</script>-->
+
 
 {%endif%}
 <br><br>

@@ -1,22 +1,25 @@
-{%extends "myapp/base.html"%}
+{%extends 'myapp/base.html'%}
+
 {%block content%}
-<h1>Hello{{name}} workorder for {{month}}{{year}}</h1>
+<section>
+  <h1>Hello{{name}} Workorder for {{month}} {{year}}</h1>
 as of {{time}}
 <br/><br/>
 {{cal|safe}}
 
+<br><br>
 
-
-<h3>Workorders this month...<h3/>
+<hr><span><h3>Workorders this month...<h3/></span><hr>
 {%if workorder_list %}
+{{workorder_quantity}}
 {%for workorder in workorder_list%}
-{{workorder}}-{{workorder.date_received}}<br>
+{{workorder.department}} {{workorder}} {{workorder.date_received.month}}<br>
 {%endfor%}
 {%else%}
 Sorry! there are no workorder this month
 
 {%endif%}
 copyright (c) {{cureent_year}}
-<br/><br/>
 
 {%endblock%}
+

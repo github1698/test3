@@ -1,0 +1,157 @@
+{% extends 'myapp/base.html' %}
+
+{% load static %}
+
+{% block content %}
+ <div id="content-wrapper" style="padding-top: 105px">
+
+        <div class="container-fluid">
+
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Overview</li>
+            </ol>
+
+            <!-- Icon Cards-->
+            <div class="row">
+
+        
+
+<div class="col-sm-6">    
+<canvas id="myChart" width="300" height="200"></canvas>
+                <div>
+
+<script type="text/javascript">
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [{% for department in department_list %} '{{ department}}', {% endfor %}],
+            datasets: [{
+                label:'Commodity',
+                data: [{% for quantity in quantities %} '{{ quantity }}', {% endfor %}],
+                backgroundColor:[
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 135, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(151, 102, 132, 1)',
+                'rgba(153, 99, 132, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 135, 1)',
+                'rgba(25, 206, 86, 1)',
+                'rgba(211, 192, 192, 1)',
+                'rgba(234, 102, 132, 1)',
+                'rgba(153, 99, 132, 1)',
+                'rgba(255, 159, 64, 1)',
+                'gree',
+                'yellow',
+                ],
+
+                borderColor: [
+                'rgba(54, 162, 135, 1)',
+                'rgba(25, 206, 86, 1)',
+                'rgba(211, 192, 192, 1)',
+                'rgba(234, 102, 132, 1)',
+                'rgba(153, 99, 132, 1)',
+                'rgba(255, 159, 64, 1)',
+
+                ],
+
+                borderWidth: 1
+            }]
+        },
+
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    })
+</script>        
+</div>
+</div> 
+
+
+
+
+<br>
+<br>
+<br>
+
+<div class="col-sm-6">    
+    <canvas id="myChart1" width="300" height="200"></canvas>
+            <div>
+
+<script type="text/javascript">
+var ctx = document.getElementById('myChart1').getContext('2d');
+var myChart1 = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: [{% for work in work_status %} '{{ work}}', {% endfor %}],
+        datasets: [{
+            label:'Work Status',
+            data: [{% for list in status_list %} '{{ list }}', {% endfor %}],
+            backgroundColor:[
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 135, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(151, 102, 132, 1)',
+            'rgba(153, 99, 132, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 135, 1)',
+            'rgba(25, 206, 86, 1)',
+            'rgba(211, 192, 192, 1)',
+            'rgba(234, 102, 132, 1)',
+            'rgba(153, 99, 132, 1)',
+            'rgba(255, 159, 64, 1)',
+            'gree',
+            'yellow',
+            ],
+
+            borderColor: [
+            'rgba(54, 162, 135, 1)',
+            'rgba(25, 206, 86, 1)',
+            'rgba(211, 192, 192, 1)',
+            'rgba(234, 102, 132, 1)',
+            'rgba(153, 99, 132, 1)',
+            'rgba(255, 159, 64, 1)',
+
+            ],
+
+            borderWidth: 1
+        }]
+    },
+
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+})
+</script>        
+</div>
+</div>
+
+</div>
+<!-- end of static icon -->           
+        </div>
+        </div>
+        </div>
+        <a class="btn btn-success"sig href="{%url 'requisition-1' %}">Go to Dashboard</a>
+        
+{% endblock %}

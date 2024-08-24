@@ -1,0 +1,79 @@
+{%extends 'myapp/base.html'%}
+
+{%block content%}
+<section>
+  <h1>Hello{{name}} Workorder for {{month}} {{year}}</h1>
+as of {{time}}
+<br/><br/>
+<!--{{cal|safe}}-->
+
+
+
+<h3>Requisitions this month...<h3/>
+{%if Workorder_list %}
+{%for workorder in requisiion_list%}
+{{requisition}}-{{workorder.date_received}}<br>
+{%endfor%}
+{%else%}
+Sorry! there are no workorder this month
+
+{%endif%}
+copyright (c) {{cureent_year}}
+<br/><br/>
+</section>
+<section>
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: {{labels|safe}},
+      datasets: [{
+        label: '# of Votes',
+        data: {{data|safe}},
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+</section>
+<br>
+<hr><hr>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+{%endblock%}

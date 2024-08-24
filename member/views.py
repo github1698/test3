@@ -88,7 +88,7 @@ def user_login(request):
             user = authenticate(request, username=username, password=password)  
             if user is not None:  
                 login(request, user)  
-                return redirect('calendar1')  # Change 'home' to your target page  
+                return redirect('workorder-1')  # Change 'home' to your target page  
             else:  
                 return HttpResponse("Invalid login")  
     else:  
@@ -102,7 +102,7 @@ def user_login(request):
 def logout_user(request):
     logout(request)
     messages.success(request, 'You were successfully logged out')
-    return redirect('home')
+    return redirect('signin')
 
 
 def signup(request):

@@ -1,0 +1,26 @@
+{%extends 'myapp/base.html'%}
+
+{%block content%}
+
+
+<h1>Add Energy Consumed...</h1>
+{%if submitted%}
+Your Request was submitted successfully!!
+{%else%}
+
+<form action="" method='POST' class="card p-3 mt-5" autocomplete="off">
+    <div class="form-group">
+    {% csrf_token %}
+    {{form.as_p}}
+    
+   <input class="submit" value="Submit" >
+    <button class="btn btn-outline-secondary" type="submit">Submit</button>
+    <input value="Submit" type="submit">
+
+    
+</div>
+</form>
+
+
+{%endif%}
+{%endblock%}
