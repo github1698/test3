@@ -25,7 +25,7 @@ class RequisitionFormAdmin(ModelForm):
         model=Requisition
         fields=('requisition_no','emanating_dept','requesting_officer','hod_consent','equipment','action_by','section','manager','manager','date_submitted','is_complete','request_image')
         labels={
-           'requisition_no':'',
+           'requisition_no':'id_no',
             'emanating_dept':'Requesting unit',
            
             'requesting_officer':'Requesting Officer',
@@ -64,7 +64,7 @@ class RequisitionForm(ModelForm):
         model=Requisition
         fields=('requisition_no','emanating_dept','requesting_officer','hod_consent','equipment','action_by','section','manager','date_submitted','is_complete','request_image')
         labels={
-            'requisition_no':'',
+            'requisition_no':'id-no',
             'emanating_dept':'',
            
             'requesting_officer':' ',
@@ -104,7 +104,7 @@ class EquipmentFormAdmin(ModelForm):
         model=Requisition
         fields=('requisition_no','emanating_dept','requesting_officer','hod_consent','equipment','action_by','section','manager','manager','is_complete','request_image')
         labels={
-            'requisition_no':'',
+            'requisition_no':'id',
             'emanating_dept':'',
            
             'requesting_officer':' ',
